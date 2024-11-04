@@ -1,7 +1,3 @@
-//variables declaration
-
-
-// Variables declaration
 let formSubmission = document.getElementById('form-task');
 let toDoTasks = document.getElementById('to-do-tasks');
 let inProgressTasks = document.getElementById('in-progress-tasks');
@@ -215,43 +211,3 @@ function updateTaskCount() {
     inProgressCount.textContent = inProgressTasks.childElementCount; // Count In Progress tasks
     doneCount.textContent = doneTasks.childElementCount; // Count Done tasks
 }
-
-
-
-
-/* ----------------------------- documentation & notes go here -------------------------------
- |
- |
- |_________________[showing model notes & documentation]_______________________________ 
- |bootstrap.Modal() => class provided by boo's js library that allows to create and control modals
- |
- |
- |
- |______________________________________________________________________________
- |
- |_______________[event listner notes & documentation]__________________________________
- |-preventdefault => to stop the usual behavior of the form and for avoid any unexpected behavior
- |
- |
- |
- |
-
-
-
-scoping & hoisting.
- lexical scope 
- -block Scope 
- function scope
- local scope 
- vit & event loop
-? chaining operator => without value it will return undefined
-|| for fullback value if the result is undefined(uncheked)it will return no type
-
-DOM 
- query selector & get element by id => brings only one element
- .............. expects css selectors
- ..............all => it selectes many classes in stead only of onr class
-class list add / class list remove
-trim() function to  remove white spaces
-split function expects a delimeter (: / = )
- */

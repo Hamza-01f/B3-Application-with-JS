@@ -24,50 +24,47 @@ document.getElementById("add-task").addEventListener('click', function () {
 });
 
 // add to do function
-function createTaskElementForToDo(taskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus) {
+function createElement(taskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus) {
+  if('To Do'){
+   return ` 
+     <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
+        <h3 class="btn-warning text-dark display-6 task-title">${taskTitle}</h3>
+        <p class="task-type">Type: ${taskType}</p>
+        <p class="task-priority">Priority: ${taskPriority}</p>
+        <p class="task-date">Date: ${taskDate}</p>
+        <p class="task-description">Description: ${taskDescription}</p>
+        <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
+     </div>
+   `;
+  }else if('In Progress'){
     return `
-      <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
-          <h3 class="btn-warning text-dark display-6 task-title">${taskTitle}</h3>
-          <p class="task-type">Type: ${taskType}</p>
-          <p class="task-priority">Priority: ${taskPriority}</p>
-          <p class="task-date">Date: ${taskDate}</p>
-          <p class="task-description">Description: ${taskDescription}</p>
-          <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
-      </div>
-    `;
+    <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
+        <h3 class="btn-primary text-dark display-6 task-title">${taskTitle}</h3>
+        <p class="task-type">Type: ${taskType}</p>
+        <p class="task-priority">Priority: ${taskPriority}</p>
+        <p class="task-date">Date: ${taskDate}</p>
+        <p class="task-description">Description: ${taskDescription}</p>
+        <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
+    </div>
+   `;
+  }else{
+    return `
+    <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
+        <h3 class="btn-success text-dark display-6 task-title">${taskTitle}</h3>
+        <p class="task-type">Type: ${taskType}</p>
+        <p class="task-priority">Priority: ${taskPriority}</p>
+        <p class="task-date">Date: ${taskDate}</p>
+        <p class="task-description">Description: ${taskDescription}</p>
+        <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
+    </div>
+  `;
+  }
+ 
 }
 
-//add in progress  function
-function createTaskElementForInProgress(taskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus){
-      return `
-          <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
-              <h3 class="btn-primary text-dark display-6 task-title">${taskTitle}</h3>
-              <p class="task-type">Type: ${taskType}</p>
-              <p class="task-priority">Priority: ${taskPriority}</p>
-              <p class="task-date">Date: ${taskDate}</p>
-              <p class="task-description">Description: ${taskDescription}</p>
-              <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
-          </div>
-    `;
-
-}
-
-//add done funtion
-function createTaskElementForDone(taskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus){
-  return `
-      <div class="list-group-item" id="${taskId}" data-status="${taskStatus}">
-          <h3 class="btn-success text-dark display-6 task-title">${taskTitle}</h3>
-          <p class="task-type">Type: ${taskType}</p>
-          <p class="task-priority">Priority: ${taskPriority}</p>
-          <p class="task-date">Date: ${taskDate}</p>
-          <p class="task-description">Description: ${taskDescription}</p>
-          <button class="btn btn-warning btn-sm" onclick="editTask('${taskId}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteTask('${taskId}')">Delete</button>
-      </div>
-`;
-};
 
 //function to delete warinig message
 let warningTextErase = () => {
@@ -80,8 +77,8 @@ let warningTextErase = () => {
 };
 
 //function to display warinig message
-let warningTextDisplay = (warningValue) => {
-  warningValue.textContent = "Please enter title";
+  function warningTextDisplay(warningValue){
+  warningValue.textContent = "Please Fill in This Field!";
   warningValue.style.color = "red";
   warningValue.style.fontFamily = "sans-serif";
   warningValue.style.fontSize = "bold"; 
@@ -100,9 +97,13 @@ formSubmission.addEventListener('submit', function (event) {
     var taskDescription = document.getElementById('task-description').value.trim();
     var taskStatus = document.getElementById('task-status').value;
     
-    if (!taskTitle || !taskType || !taskPriority || !taskDate || !taskDescription || !taskStatus) {
-      if (taskTitle === '') {
-              warningTextDisplay(titleError);
+    if (taskTitle === '' || taskType === ''|| taskPriority === ''|| taskDate === '' || taskDescription === '' || taskStatus === ''){
+            if (taskTitle === '') {
+              titleError.textContent = "Please Fill in This Field!";
+              titleError.style.color = "red";
+              titleError.style.fontFamily = "sans-serif";
+              titleError.style.fontSize = "bold"; 
+              titleError.style.fontWeight = "bold";
             }
             if (taskType === '') {
               warningTextDisplay(typeError);
@@ -147,19 +148,18 @@ formSubmission.addEventListener('submit', function (event) {
         const newTaskId = 'task-' + Date.now();
         
         if (taskStatus === 'To Do') {
-          const taskHTML = createTaskElementForToDo(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
+          const taskHTML = createElement(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
             toDoTasks.innerHTML += taskHTML; // Append to To Do list
-            localStorage.setItem('toDoTasks',toDoTasks);
         } else if (taskStatus === 'In Progress') {
-          const taskHTML = createTaskElementForInProgress(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
+          const taskHTML = createElement(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
             inProgressTasks.innerHTML += taskHTML; // Append to In Progress list
         } else if (taskStatus === 'Done') {
-          const taskHTML = createTaskElementForDone(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
+          const taskHTML = createElement(newTaskId, taskTitle, taskType, taskPriority, taskDate, taskDescription, taskStatus);
             doneTasks.innerHTML += taskHTML; // Append to Done list
-        }
-         // Clear the form after submission
+        }     
     }
 
+    // Clear the form after submission
     formSubmission.reset();
     warningTextErase();
     updateTaskCount(); // Update task counts
@@ -202,7 +202,7 @@ function deleteTask(taskId) {
           const modal = bootstrap.Modal.getInstance(modalDelete);
           modal.hide();
       }
-  }, { once: true }); // Ensure the listener is only invoked once
+  });
 }
 
 // Function to update task count

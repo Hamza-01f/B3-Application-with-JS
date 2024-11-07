@@ -11,6 +11,7 @@ let priorityError = document.getElementById('Priority-error');
 let statusError = document.getElementById('status-error');
 let DateError = document.getElementById('date-error');
 let descriptionError = document.getElementById('description-error');
+// const TaskModalDelete = getElementById('modal-task');
 
 let editingTaskId = null; // Variable to track the task being edited
 
@@ -89,7 +90,7 @@ let warningTextErase = () => {
 // Event listener for form submission
 formSubmission.addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent form from submitting normally
-    
+
     var taskTitle = document.getElementById('task-title').value.trim();
     var taskType = document.querySelector('input[name="task-type"]:checked').value ;
     var taskPriority = document.getElementById('task-priority').value;
@@ -163,6 +164,9 @@ formSubmission.addEventListener('submit', function (event) {
     formSubmission.reset();
     warningTextErase();
     updateTaskCount(); // Update task counts
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modal-task'));
+    modal.hide(); // Hide the modal after form submission
    
 });
 
